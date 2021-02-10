@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.Core", "JobsityChat.Core\JobsityChat.Core.csproj", "{B33A0A36-C48C-48B6-8D04-99AFEBF76252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.Infraestructure", "JobsityChat.Infraestructure\JobsityChat.Infraestructure.csproj", "{577BCEED-D503-40C0-88F9-D48372452BC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.StocksBot", "JobsityChat.StocksBot\JobsityChat.StocksBot.csproj", "{8CC99D47-A4F8-47BF-A57A-D8284CB93068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.WebApi", "JobsityChat.WebApi\JobsityChat.WebApi.csproj", "{F2DD8872-A933-4B11-AB46-E7E940F6B999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.WebUI", "JobsityChat.WebUI\JobsityChat.WebUI.csproj", "{806CF441-90DA-417A-91F9-6C08D6E4F0DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C3E85D2B-896C-4E2F-840D-DCA441D64626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsityChat.Tests", "test\JobsityChat.Tests\JobsityChat.Tests.csproj", "{DA53430D-0B51-44D8-859D-BA229D57AE5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B33A0A36-C48C-48B6-8D04-99AFEBF76252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B33A0A36-C48C-48B6-8D04-99AFEBF76252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B33A0A36-C48C-48B6-8D04-99AFEBF76252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B33A0A36-C48C-48B6-8D04-99AFEBF76252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577BCEED-D503-40C0-88F9-D48372452BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577BCEED-D503-40C0-88F9-D48372452BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577BCEED-D503-40C0-88F9-D48372452BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577BCEED-D503-40C0-88F9-D48372452BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CC99D47-A4F8-47BF-A57A-D8284CB93068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC99D47-A4F8-47BF-A57A-D8284CB93068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC99D47-A4F8-47BF-A57A-D8284CB93068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC99D47-A4F8-47BF-A57A-D8284CB93068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2DD8872-A933-4B11-AB46-E7E940F6B999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2DD8872-A933-4B11-AB46-E7E940F6B999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2DD8872-A933-4B11-AB46-E7E940F6B999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2DD8872-A933-4B11-AB46-E7E940F6B999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806CF441-90DA-417A-91F9-6C08D6E4F0DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806CF441-90DA-417A-91F9-6C08D6E4F0DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806CF441-90DA-417A-91F9-6C08D6E4F0DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806CF441-90DA-417A-91F9-6C08D6E4F0DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA53430D-0B51-44D8-859D-BA229D57AE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA53430D-0B51-44D8-859D-BA229D57AE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA53430D-0B51-44D8-859D-BA229D57AE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA53430D-0B51-44D8-859D-BA229D57AE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DA53430D-0B51-44D8-859D-BA229D57AE5B} = {C3E85D2B-896C-4E2F-840D-DCA441D64626}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E9B6CF4-A093-4BB8-9370-2D6EDD546D70}
+	EndGlobalSection
+EndGlobal
