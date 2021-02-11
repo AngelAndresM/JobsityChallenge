@@ -23,8 +23,8 @@ namespace JobsityChat.Infraestructure.Services
         public async Task<List<UserMessage>> GetAllAsync<TOrderBy>(int? count, Expression<Func<UserMessage, TOrderBy>> orderBy)
         {
             return count.HasValue && count > 0 ?
-                  await _dbContext.Messages.Take(count.Value).OrderBy(orderBy).ToListAsync() :
-                  await _dbContext.Messages.OrderBy(orderBy).ToListAsync();
+                  await _dbContext.Messages.Include(t => t.User).Take(count.Value).OrderBy(orderBy).ToListAsync() :
+                  await _dbContext.Messages.Include(t => t.User).OrderBy(orderBy).ToListAsync();
         }
 
         public async Task<UserMessage> FirstOrDefaultAsync(Expression<Func<UserMessage, bool>> filter)
