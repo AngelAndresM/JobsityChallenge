@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
 
 using JobsityChat.Core.Models;
 using JobsityChat.Core.Contracts;
@@ -65,9 +66,24 @@ namespace JobsityChat.WebApi
                         .AllowAnyHeader());
             });
 
+
             //Add Repositories & Services
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<ITokenService, TokenService>();
+
+
+            //AddSwagger
+            services.AddSwaggerGen(options =>
+            {
+                var version = "v1";
+
+                options.SwaggerDoc(version, new OpenApiInfo
+                {
+                    Title = $"JobsityChat {version}",
+                    Version = version,
+                    Description = "JobsityChat API"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +100,13 @@ namespace JobsityChat.WebApi
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobsityChat API v1");
+            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
