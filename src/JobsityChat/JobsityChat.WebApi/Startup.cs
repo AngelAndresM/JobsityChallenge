@@ -10,6 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
+using JobsityChat.Core.Models;
+using JobsityChat.Core.Contracts;
+using JobsityChat.Infraestructure.Database;
+using JobsityChat.Infraestructure.Services;
 
 namespace JobsityChat.WebApi
 {
@@ -25,7 +32,34 @@ namespace JobsityChat.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(optns => optns.SerializerSettings.ReferenceLoopHandling =
+                                                                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
+
+            services.AddIdentity<UserInfo, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DevEnvCorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
+            //Add Repositories
+            services.AddScoped<IMessageRepository, MessageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,13 +67,17 @@ namespace JobsityChat.WebApi
         {
             if (env.IsDevelopment())
             {
+                app.UseCors("DevEnvCorsPolicy");
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseCors("CorsPolicy");
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
