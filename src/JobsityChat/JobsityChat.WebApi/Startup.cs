@@ -23,6 +23,8 @@ using JobsityChat.Core.Helpers;
 using JobsityChat.Infraestructure.Database;
 using JobsityChat.Infraestructure.Services;
 
+using JobsityChat.WebApi.SignalHubs;
+
 namespace JobsityChat.WebApi
 {
     public class Startup
@@ -54,6 +56,23 @@ namespace JobsityChat.WebApi
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
+                };
+
+                config.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var path = context.HttpContext.Request.Path;
+                        var accessToken = context.Request.Query["access_token"];
+
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/chatroom"))
+                        {
+                            // Get token from query string
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
@@ -90,6 +109,9 @@ namespace JobsityChat.WebApi
                         .AllowAnyHeader());
             });
 
+
+            // SignalR
+            services.AddSignalR();
 
             //Add Repositories & Services
             services.AddScoped<IMessageRepository, MessageRepository>();
@@ -137,6 +159,7 @@ namespace JobsityChat.WebApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<JobsityChatHub>("/hubs/chatroom");
                 endpoints.MapControllers();
             });
         }
