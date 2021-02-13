@@ -116,7 +116,7 @@ namespace JobsityChat.WebApi
             //Add Repositories & Services
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<ITokenService, TokenService>();
-
+            services.AddScoped<IChatRoomCommandHandler, ChatRoomCommandHandler>();
 
             //AddSwagger
             services.AddSwaggerGen(options =>

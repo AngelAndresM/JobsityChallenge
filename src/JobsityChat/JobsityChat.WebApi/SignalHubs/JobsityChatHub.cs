@@ -15,19 +15,40 @@ namespace JobsityChat.WebApi.SignalHubs
     public class JobsityChatHub : Hub
     {
         private readonly UserManager<UserInfo> _userManager;
+        private readonly IChatRoomCommandHandler _chatRoomCommandHandler;
         private readonly IMessageRepository _messageRepository;
 
-        public JobsityChatHub(UserManager<UserInfo> userManager, IMessageRepository messageRepository)
+        public JobsityChatHub(UserManager<UserInfo> userManager, IMessageRepository messageRepository, IChatRoomCommandHandler chatRoomCommandHandler)
         {
             _userManager = userManager;
             _messageRepository = messageRepository;
+            _chatRoomCommandHandler = chatRoomCommandHandler;
         }
 
         public async Task SendMessage(ChatMessageViewModel messageItem)
         {
-            //TODO: Handle messageItem
+            if (_chatRoomCommandHandler.IsCommand(messageItem.Message))
+            {
+                _chatRoomCommandHandler.ExecuteCommand(messageItem.Message, (commandName, commandParameter) =>
+                {
+                    //The 'messageItem' is a command message.
 
-            await SaveMessage(messageItem);
+                    switch (commandName)
+                    {
+                        case "stock":
+
+                            //TODO: Send 'messageItem' to Message Queue
+
+                            break;
+                    }
+
+                });
+            }
+            else
+            {
+                //Save message to database
+                await SaveMessage(messageItem);
+            }
 
             await Clients.All.SendAsync(ApplicationConstants.RECEIVE_MESSAGE, messageItem);
         }
