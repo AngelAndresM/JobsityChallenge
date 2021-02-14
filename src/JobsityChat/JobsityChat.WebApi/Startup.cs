@@ -24,6 +24,7 @@ using JobsityChat.Infraestructure.Database;
 using JobsityChat.Infraestructure.Services;
 
 using JobsityChat.WebApi.SignalHubs;
+using JobsityChat.WebApi.RabbitMQ;
 
 namespace JobsityChat.WebApi
 {
@@ -117,6 +118,10 @@ namespace JobsityChat.WebApi
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IChatRoomCommandHandler, ChatRoomCommandHandler>();
+
+            // RabbitMQ
+            services.AddSingleton<IStockQueueProducer, StockQueueProducer>();
+            services.AddHostedService<StockQueueConsumer>();
 
             //AddSwagger
             services.AddSwaggerGen(options =>

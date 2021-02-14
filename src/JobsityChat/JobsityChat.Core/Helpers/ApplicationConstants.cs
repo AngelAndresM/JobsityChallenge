@@ -8,5 +8,11 @@ namespace JobsityChat.Core.Helpers
 
         //Hub
         public const string RECEIVE_MESSAGE = "ReceiveMessage";
+        public const string BotName = "JobsityBot";
+
+        //RabbitMQ
+        public const string StockQueueRequest = "StockQueueRequest";
+        public const string StockQueueResponse = "StockQueueResponse";
+
     }
 }

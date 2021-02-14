@@ -17,12 +17,15 @@ namespace JobsityChat.WebApi.SignalHubs
         private readonly UserManager<UserInfo> _userManager;
         private readonly IChatRoomCommandHandler _chatRoomCommandHandler;
         private readonly IMessageRepository _messageRepository;
+        private readonly IStockQueueProducer _stockQueueProducer;
 
-        public JobsityChatHub(UserManager<UserInfo> userManager, IMessageRepository messageRepository, IChatRoomCommandHandler chatRoomCommandHandler)
+        public JobsityChatHub(UserManager<UserInfo> userManager, IMessageRepository messageRepository, IChatRoomCommandHandler chatRoomCommandHandler,
+                              IStockQueueProducer stockQueueProducer)
         {
             _userManager = userManager;
             _messageRepository = messageRepository;
             _chatRoomCommandHandler = chatRoomCommandHandler;
+            _stockQueueProducer = stockQueueProducer;
         }
 
         public async Task SendMessage(ChatMessageViewModel messageItem)
@@ -36,12 +39,9 @@ namespace JobsityChat.WebApi.SignalHubs
                     switch (commandName)
                     {
                         case "stock":
-
-                            //TODO: Send 'messageItem' to Message Queue
-
+                            _stockQueueProducer.RequestStockInfo(commandParameter);
                             break;
                     }
-
                 });
             }
             else
