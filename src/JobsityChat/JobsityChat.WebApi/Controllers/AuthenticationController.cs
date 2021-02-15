@@ -68,7 +68,8 @@ namespace JobsityChat.WebApi.Controllers
                 userDetail = new
                 {
                     UserName = user.UserName,
-                    FullName = $"{user.FirstName} {user.LastName}"
+                    FullName = $"{user.FirstName} {user.LastName}",
+                    Email = user.Email
                 }
             });
         }
