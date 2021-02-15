@@ -13,7 +13,6 @@ using JobsityChat.WebApi.Models;
 
 namespace JobsityChat.WebApi.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ChatMessagesController : ControllerBase
@@ -29,6 +28,7 @@ namespace JobsityChat.WebApi.Controllers
 
         [HttpGet]
         [Route("lastmessages")]
+        //[Authorize]
         public async Task<IActionResult> GetLastMessages()
         {
             var numberOfMessages = 50;
