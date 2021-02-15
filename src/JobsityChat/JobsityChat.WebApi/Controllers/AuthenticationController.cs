@@ -19,14 +19,16 @@ namespace JobsityChat.WebApi.Controllers
     {
         private readonly ILogger<AuthenticationController> _logger;
         private readonly SignInManager<UserInfo> _signInManager;
+        private readonly UserManager<UserInfo> _userManager;
         private readonly ITokenService _tokenService;
 
         public AuthenticationController(ILogger<AuthenticationController> logger, SignInManager<UserInfo> signInManager,
-                                        ITokenService tokenService)
+                                        ITokenService tokenService, UserManager<UserInfo> userManager)
         {
             _logger = logger;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -56,8 +58,19 @@ namespace JobsityChat.WebApi.Controllers
             }
 
             var tokenString = _tokenService.GetNewToken(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.UserName);
 
-            return Ok(new { Message = "Login success!", HasError = false, Token = tokenString });
+            return Ok(new
+            {
+                Message = "Login success!",
+                HasError = false,
+                Token = tokenString,
+                userDetail = new
+                {
+                    UserName = user.UserName,
+                    FullName = $"{user.FirstName} {user.LastName}"
+                }
+            });
         }
     }
 }
