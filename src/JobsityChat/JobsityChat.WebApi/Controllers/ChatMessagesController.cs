@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using JobsityChat.Core.Models;
 using JobsityChat.Core.Contracts;
 using JobsityChat.WebApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace JobsityChat.WebApi.Controllers
 {
@@ -28,7 +29,7 @@ namespace JobsityChat.WebApi.Controllers
 
         [HttpGet]
         [Route("lastmessages")]
-        //[Authorize]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetLastMessages()
         {
             var numberOfMessages = 50;
