@@ -28,8 +28,8 @@ namespace JobsityChat.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Route("lastmessages")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetLastMessages()
         {
             var numberOfMessages = 50;

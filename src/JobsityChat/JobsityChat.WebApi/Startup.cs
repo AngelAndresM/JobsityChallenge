@@ -40,8 +40,14 @@ namespace JobsityChat.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(optns => optns.SerializerSettings.ReferenceLoopHandling =
+                                                                Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            var jwtConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtTokenConfig>();
+            services.AddSingleton<JwtTokenConfig>(jwtConfig);
+
             //Add JWT Authentication
-            var key = Encoding.ASCII.GetBytes(ApplicationConstants.IdentityTokenKey);
+            var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
             services.AddAuthentication(config =>
             {
                 config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,8 +61,10 @@ namespace JobsityChat.WebApi
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = jwtConfig.Issuer,
+                    ValidAudience = jwtConfig.Audience,
                 };
 
                 config.Events = new JwtBearerEvents
@@ -76,9 +84,6 @@ namespace JobsityChat.WebApi
                     }
                 };
             });
-
-            services.AddControllers().AddNewtonsoftJson(optns => optns.SerializerSettings.ReferenceLoopHandling =
-                                                                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
@@ -143,6 +148,21 @@ namespace JobsityChat.WebApi
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
                 });
             });
         }
