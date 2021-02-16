@@ -5,7 +5,7 @@ namespace JobsityChat.Core.Models
     public class StockRecordInfo
     {
         public string Symbol { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string Time { get; set; }
         public decimal Open { get; set; }
         public decimal High { get; set; }

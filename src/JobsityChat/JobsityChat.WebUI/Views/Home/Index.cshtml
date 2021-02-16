@@ -71,14 +71,45 @@
 </div>
 
 @section Scripts {
+    <script src="~/lib/signalr/signalr.js"></script>
     <script type="text/javascript">
+        //DOM Elements
+        var $btnSendMessage = $('#btnSendMessage');
+        var $txtMessage = $('#txtMessage');
 
-        $(document).ready(function () {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5000/hubs/chatroom")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
 
-            //TODO:
+        $btnSendMessage.click(function (e) {
 
+            var message = $txtMessage.val();
+            $txtMessage.val('');
 
+            var messageItem = {
+                Message: message,
+                UserName: '@User.Identity.Name',
+                UserFullName: 'TODO: FullName'
+            };
+
+            connection.send("SendMessage", messageItem);
+            e.preventDefault();
         });
 
+        connection.on("ReceiveMessage", function (messageItem) {
+            console.log(messageItem);
+            window.location.reload();
+            //TODO: Append to UI
+        });
+
+        connection.on("SendAction", function (sender, action) {
+            console.log(sender + ' ' + action);
+        });
+
+        connection.start().then(function () {
+
+        })
+        .catch(err => console.error(err.toString()));
     </script>
 }

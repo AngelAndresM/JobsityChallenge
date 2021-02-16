@@ -15,13 +15,11 @@ namespace JobsityChat.Infraestructure.Services
 {
     public class CsvStockPriceHandler : IStockPriceHandler
     {
-        private const string Url = "​https://stooq.com/q/l/?s={0}&f=sd2t2ohlcv&h&e=csv";
-
         public async Task<StockRecordInfo> GetStockInfo(string stockCode)
         {
             using (var client = new HttpClient())
             {
-                var requestUrl = string.Format(Url, stockCode);
+                var requestUrl = $"https://stooq.com/q/l/?s={stockCode}&f=sd2t2ohlcv&h&e=csv";
                 var responseContent = await client.GetStreamAsync(requestUrl);
 
                 var parser = new CsvParser<StockRecordInfo>(new CsvParserOptions(true, ','), new StockInfoCsvMapping());

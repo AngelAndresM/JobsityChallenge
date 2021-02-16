@@ -55,14 +55,14 @@ namespace JobsityChat.WebApi.SignalHubs
 
         private async Task SaveMessage(ChatMessageViewModel item)
         {
-            var user = await _userManager.FindByNameAsync(Context.User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(item.UserName);
             var repository = _messageRepository as MessageRepository;
 
             await repository.InsertAsync(new UserMessage
             {
                 Message = item.Message,
                 UserId = user.Id,
-                CreationDate = DateTime.Parse(item.CreatedAt)
+                CreationDate = DateTime.Now
             });
         }
     }

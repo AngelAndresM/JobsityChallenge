@@ -13,7 +13,7 @@ namespace JobsityChat.Infraestructure.Services
 
         public void ExecuteCommand(string message, Action<string, string> action)
         {
-            var commandText = message.Trim().Remove('/').ToLower();
+            var commandText = message.Trim().Substring(1).ToLower();
             var commandParts = commandText.Split("=");
 
             var commandName = commandParts[0];
