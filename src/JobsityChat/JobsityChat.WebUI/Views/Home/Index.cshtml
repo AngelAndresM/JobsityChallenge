@@ -16,7 +16,7 @@
 <div class="row">
     <div class="col-md-8 bg-white" style="margin:0 auto;">
         <div class="chat-message">
-            <ul class="chat">
+            <ul id="message-list" class="chat">
 
                 @foreach (var messageItem in Model)
                 {
@@ -73,9 +73,9 @@
 @section Scripts {
     <script src="~/lib/signalr/signalr.js"></script>
     <script type="text/javascript">
-        //DOM Elements
         var $btnSendMessage = $('#btnSendMessage');
         var $txtMessage = $('#txtMessage');
+        var $messageList = $('#message-list');
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("http://localhost:5000/hubs/chatroom")
@@ -85,22 +85,36 @@
         $btnSendMessage.click(function (e) {
 
             var message = $txtMessage.val();
-            $txtMessage.val('');
+
+            if (!message) return;
 
             var messageItem = {
                 Message: message,
-                UserName: '@User.Identity.Name',
-                UserFullName: 'TODO: FullName'
+                UserName: '@User.Identity.Name'
             };
 
             connection.send("SendMessage", messageItem);
+
+            $txtMessage.val('');
             e.preventDefault();
+        });
+
+        $txtMessage.keypress(function (e) {
+
+            var keyPressed = e.keyCode || e.charCode;
+
+            if (keyPressed === 13) {
+                $btnSendMessage.click();
+            }
+
         });
 
         connection.on("ReceiveMessage", function (messageItem) {
             console.log(messageItem);
-            window.location.reload();
-            //TODO: Append to UI
+
+            var newMessage = getMessageContent(messageItem);
+
+            $messageList.append(newMessage);
         });
 
         connection.on("SendAction", function (sender, action) {
@@ -110,6 +124,43 @@
         connection.start().then(function () {
 
         })
-        .catch(err => console.error(err.toString()));
+            .catch(err => console.error(err.toString()));
+
+
+        function getMessageContent(messageItem)
+        {
+            var content = '';
+
+            if (messageItem.userName == '@User.Identity.Name') {
+                /* outgoing message */
+                content += '<li class="right clearfix">';
+                content += '<span class="chat-img pull-right">';
+                content += '<img src="/images/user_1.jpg" alt="User Avatar">';
+                content += '</span>';
+                content += '<div class="chat-body clearfix">';
+                content += '<div class="header">';
+                content += '<strong class="primary-font">' + messageItem.userFullName + '</strong>';
+                content += '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + messageItem.createdAt + '</small>';
+                content += '</div>';
+                content += '<p>' + messageItem.message + '</p>';
+                content += '</div>';
+                content += '</li>';
+            } else {
+                content += '<li class="left clearfix">';
+                content += '<span class="chat-img pull-left">';
+                content += '<img src="/images/user_2.jpg" alt="User Avatar">';
+                content += '</span>';
+                content += '<div class="chat-body clearfix">';
+                content += '<div class="header">';
+                content += '<strong class="primary-font">' + messageItem.userFullName + '</strong>';
+                content += '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + messageItem.createdAt + '</small>';
+                content += '</div>';
+                content += '<p>' + messageItem.message + '</p>';
+                content += '</div>';
+                content += '</li>';
+            }
+
+            return content;
+        }
     </script>
 }

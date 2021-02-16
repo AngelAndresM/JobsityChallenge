@@ -43,6 +43,11 @@ namespace JobsityChat.WebApi.SignalHubs
                             break;
                     }
                 });
+
+                //Fill FullName & Date properties
+                var user = await _userManager.FindByNameAsync(messageItem.UserName);
+                messageItem.UserFullName = $"{user.FirstName} {user.LastName}";
+                messageItem.CreatedAt = DateTime.Now.ToString("d");
             }
             else
             {
@@ -55,14 +60,19 @@ namespace JobsityChat.WebApi.SignalHubs
 
         private async Task SaveMessage(ChatMessageViewModel item)
         {
+            var messageDate = DateTime.Now;
+
             var user = await _userManager.FindByNameAsync(item.UserName);
             var repository = _messageRepository as MessageRepository;
+
+            item.UserFullName = $"{user.FirstName} {user.LastName}";
+            item.CreatedAt = messageDate.ToString("d");
 
             await repository.InsertAsync(new UserMessage
             {
                 Message = item.Message,
                 UserId = user.Id,
-                CreationDate = DateTime.Now
+                CreationDate = messageDate
             });
         }
     }
