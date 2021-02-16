@@ -75,7 +75,12 @@
     <script type="text/javascript">
         var $btnSendMessage = $('#btnSendMessage');
         var $txtMessage = $('#txtMessage');
-        var $messageList = $('#message-list');
+        var $messageList = $('#message-list')
+        var $messageContainer = $(".chat-message");
+
+        $(function () {
+            scrollToLastMessage();
+        });
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("http://localhost:5000/hubs/chatroom")
@@ -115,6 +120,7 @@
             var newMessage = getMessageContent(messageItem);
 
             $messageList.append(newMessage);
+            scrollToLastMessage();
         });
 
         connection.on("SendAction", function (sender, action) {
@@ -146,6 +152,7 @@
                 content += '</div>';
                 content += '</li>';
             } else {
+                /* incoming message */
                 content += '<li class="left clearfix">';
                 content += '<span class="chat-img pull-left">';
                 content += '<img src="/images/user_2.jpg" alt="User Avatar">';
@@ -161,6 +168,14 @@
             }
 
             return content;
+        }
+
+        function scrollToLastMessage() {
+            try {
+                $messageContainer.stop().animate({ scrollTop: $messageContainer[0].scrollHeight }, 1000);
+            } catch (e) {
+
+            }
         }
     </script>
 }
