@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JobsityChat.WebUI.Models;
+
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace JobsityChat.WebUI.Controllers
 {
@@ -22,6 +26,7 @@ namespace JobsityChat.WebUI.Controllers
 
         public IActionResult Index()
         {
+            var token = GetUserToken();
             return View();
         }
 
@@ -34,6 +39,18 @@ namespace JobsityChat.WebUI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        string GetUserToken()
+        {
+            var tokenString = string.Empty;
+
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                tokenString = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication).Value;
+            }
+                
+            return tokenString;
         }
     }
 }

@@ -64,6 +64,7 @@ namespace JobsityChat.WebApi.Controllers
             {
                 Message = "Login success!",
                 HasError = false,
+                ValidationMessage = string.Empty,
                 Token = tokenString,
                 userDetail = new
                 {

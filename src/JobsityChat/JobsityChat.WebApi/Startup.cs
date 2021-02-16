@@ -180,7 +180,7 @@ namespace JobsityChat.WebApi
                 app.UseCors("CorsPolicy");
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
