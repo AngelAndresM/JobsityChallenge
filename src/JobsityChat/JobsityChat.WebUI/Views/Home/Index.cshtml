@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<JobsityChat.WebUI.Models.Response.ChatMessageResponseModel>
+
+@{
     ViewData["Title"] = "Chat Room";
 }
 
@@ -15,109 +17,51 @@
     <div class="col-md-8 bg-white" style="margin:0 auto;">
         <div class="chat-message">
             <ul class="chat">
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">John Doe</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Sarah</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 13 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at.
-                        </p>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">John Doe</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Sarah</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 13 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at.
-                        </p>
-                    </div>
-                </li>
-                <li class="left clearfix">
-                    <span class="chat-img pull-left">
-                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">John Doe</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 12 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Sarah</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 13 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at.
-                        </p>
-                    </div>
-                </li>
-                <li class="right clearfix">
-                    <span class="chat-img pull-right">
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="User Avatar">
-                    </span>
-                    <div class="chat-body clearfix">
-                        <div class="header">
-                            <strong class="primary-font">Sarah</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> 13 mins ago</small>
-                        </div>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at.
-                        </p>
-                    </div>
-                </li>
+
+                @foreach (var messageItem in Model)
+                {
+                    if (messageItem.UserName == User.Identity.Name)
+                    {
+                        @*outgoing message*@
+                        <li class="right clearfix">
+                            <span class="chat-img pull-right">
+                                <img src="~/images/user_1.jpg" alt="User Avatar">
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">@messageItem.UserFullName</strong>
+                                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> @messageItem.CreatedAt</small>
+                                </div>
+                                <p>
+                                    @messageItem.Message
+                                </p>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        @*incoming message*@
+                        <li class="left clearfix">
+                            <span class="chat-img pull-left">
+                                <img src="~/images/user_2.jpg" alt="User Avatar">
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">@messageItem.UserFullName</strong>
+                                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> @messageItem.CreatedAt</small>
+                                </div>
+                                <p>
+                                    @messageItem.Message
+                                </p>
+                            </div>
+                        </li>
+                    }
+                }
             </ul>
         </div>
         <div class="chat-box bg-white">
             <div class="input-group">
-                <input class="form-control border no-shadow no-rounded" placeholder="Type your message here">
+                <input id="txtMessage" class="form-control border no-shadow no-rounded" placeholder="Type your message here">
                 <span class="input-group-btn">
                     <button id="btnSendMessage" class="btn btn-success no-rounded" type="button">Send</button>
                 </span>
@@ -125,3 +69,16 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //TODO:
+
+
+        });
+
+    </script>
+}
