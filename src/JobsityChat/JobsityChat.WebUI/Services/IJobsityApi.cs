@@ -13,5 +13,8 @@ namespace JobsityChat.WebUI.Services
 
         [Post("/api/user/register")]
         Task<HttpResponseMessage> RegisterAsync([Body] RegisterRequestModel model);
+
+        [Get("/api/chatmessages/lastmessages")]
+        Task<HttpResponseMessage> GetLastMessagesAsync([Header("Authorization")] string authorization);
     }
 }
