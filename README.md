@@ -130,7 +130,7 @@ After executing the previous steps you should be able to see the following messa
     dotnet run "JobsityChat.WebApi.csproj"
     ```
 
-After executing the previous steps, if you click [here](http://localhost:5000) you should be able to see the Swagger UI (API Documentation Tool) in your browser:
+After executing the previous steps, if you click [here](http://localhost:5000/swagger/) you should be able to see the Swagger UI (API Documentation Tool) in your browser:
 
 [image]
 
