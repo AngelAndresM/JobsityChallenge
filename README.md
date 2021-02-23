@@ -111,7 +111,7 @@ After install the dependencies and make sure the docker containers are running n
 
 After executing the previous steps you should be able to see the following message on the console:
 
-[image]
+![StocksBot Application](https://github.com/AngelAndresM/JobsityChallenge/blob/main/images/screen_stockbot.png?raw=true)
 
 ## **WebApi**
 
@@ -130,9 +130,9 @@ After executing the previous steps you should be able to see the following messa
     dotnet run "JobsityChat.WebApi.csproj"
     ```
 
-After executing the previous steps, if you click [here](http://localhost:5000/swagger/) you should be able to see the Swagger UI (API Documentation Tool) in your browser:
+After executing the previous steps, if you click [here](http://localhost:5000/swagger/index.html) you should be able to see the Swagger UI (API Documentation Tool) in your browser:
 
-[image]
+![WebApi Application](https://github.com/AngelAndresM/JobsityChallenge/blob/main/images/screen_webapi.png?raw=true)
 
 ## **WebUI**
 
@@ -153,7 +153,7 @@ After executing the previous steps, if you click [here](http://localhost:5000/sw
 
 After executing the previous steps, if you click [here](http://localhost:4200) you should be able to see the web app running in your browser:
 
-[image]
+![WebUI Application](https://github.com/AngelAndresM/JobsityChallenge/blob/main/images/screen_webapp.png?raw=true)
 
 # How to use
 
@@ -166,4 +166,4 @@ You can have multiple user sessions login in from a different browser window (no
 
 # Jobsity chat room screen :)
 
-[image]
+![ChatRoom Screen](https://github.com/AngelAndresM/JobsityChallenge/blob/main/images/screen_chatroom.png?raw=true)
